@@ -7,10 +7,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import plot_confusion_matrix, plot_roc_curve, plot_precision_recall_curve
+from sklearn.metrics import ConfusionMatrixDisplay, RocCurveDisplay, PrecisionRecallDisplay
 from sklearn.metrics import precision_score, recall_score
 
-st.set_option('deprecation.showPyplotGlobalUse', False)
+#st.set_option('deprecation.showPyplotGlobalUse', False)
 
 def main():
     st.title("Application de fraude par carte de crédit")
@@ -57,17 +57,17 @@ def main():
     def plot_perf(graphes):
         if 'Confusion matrix' in graphes:
             st.subheader('Matrice de confusion')
-            plot_confusion_matrix(
+            ConfusionMatrixDisplay.from_estimator(
                 model,
                 X_test,
-                y_test,
-                display_labels = class_names
+                y_test
+                #pos_label = class_names
             )
             st.pyplot()
     
         if 'ROC' in graphes:
             st.subheader('Courbe ROC')
-            plot_roc_curve(
+            RocCurveDisplay.from_estimator(
                 model,
                 X_test,
                 y_test
@@ -76,7 +76,7 @@ def main():
             
         if 'Precision-Recall curve' in graphes:
             st.subheader('Courbe precision recall')
-            plot_precision_recall_curve(
+            PrecisionRecallDisplay.from_estimator(
                 model,
                 X_test,
                 y_test
